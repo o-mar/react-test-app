@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Post from './Post';
 
-class PostsList extends Component {
-    render() {
-        return (
-            <div>
-                <Post className="post" />
-                <Post className="post" />
-                <Post className="post" />
-            </div>
-        );
-    }
-}
+const PostsList = ({ posts, deletePost }) => (
+    <div>
+        {posts.map((post) =>
+            <Post className="post"
+                  post={post}
+                  key={post.id}
+                  deletePost={deletePost} />
+        )}
+    </div>
+);
 
 export default PostsList;
