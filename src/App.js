@@ -25,25 +25,16 @@ const posts = [
 ];
 
 class App extends Component {
-    constructor(props) {
+   /* constructor(props) {
         super(props);
-        this.state = {posts: posts};
-        this.deletePost = this.deletePost.bind(this);
-    }
-
-    deletePost(id) {
-        this.setState({
-            posts: this.state.posts.filter((post) => post.id !== id)
-        })
-    }
+    }*/
 
     render() {
         return (
             <div className="app-container">
                 <Header title="My Awesome Blog" />
                 <PostsList className="posts-list"
-                           posts={this.state.posts}
-                           deletePost={this.deletePost} />
+                           posts={posts} />
             </div>
         );
     }

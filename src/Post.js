@@ -3,21 +3,64 @@ import React, { Component } from 'react';
 class Post extends Component {
     constructor(props) {
         super(props);
-        this.deletePost = this.deletePost.bind(this);
+        this.state = {
+            isEditing: false,
+            tempPostText: ''
+        };
     }
 
-    deletePost(e) {
+    editPost = (e) => {
         e.preventDefault();
-        this.props.deletePost(this.props.post.id);
+        const { body } = this.props;
+        this.setState({
+            isEditing: true,
+            tempPostText: body
+        });
+    }
+
+    textChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            tempPostText: e.target.value
+        });
+    }
+
+    savePost = (e) => {
+        e.preventDefault();
+        const { id, updatePostBody } = this.props;
+        this.setState({
+            ...this.state,
+            isEditing: false,
+        });
+
+        updatePostBody(id, this.state.tempPostText);
+    }
+
+    deletePost = (e) => {
+        e.preventDefault();
+        const { id, deletePost } = this.props;
+        deletePost(id);
     }
 
     render() {
+        const { title, body } = this.props;
+        const isEditing = this.state.isEditing;
+
+        let postBody = body;
+        if (isEditing) {
+            postBody = <textarea value={this.state.tempPostText}
+                                 rows="5" cols="80"
+                                 onChange={this.textChangeHandler} />;
+        }
+
         return (
             <div>
-                <h4>{this.props.post.title}</h4>
-                <p>{this.props.post.body}</p>
+                <h4>{title}</h4>
+                <p>{postBody}</p>
                 <div className="post-сontrols">
-                    <button>Edit</button>
+                    <button onClick={isEditing ? this.savePost : this.editPost}>
+                        {isEditing ? 'Save' : 'Edit'}
+                    </button>
                     <button onClick={this.deletePost}>Delete</button>
                     <button>Show comments</button>
                 </div>
