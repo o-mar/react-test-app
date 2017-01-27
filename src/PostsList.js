@@ -4,18 +4,30 @@ import Post from './Post';
 class PostsList extends Component {
     constructor(props) {
         super(props);
-        this.state = {'posts': this.props.posts};
+        this.state = {posts: []};
     }
 
-    updatePostBody(id, updatedText) {
+    componentWillMount() {
+        const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts';
+        fetch(POSTS_URL).then((response) => {
+            return response.json();
+        }).then((data) => {
+            this.setState({posts : data.slice(0, 10)});
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
+
+    updatePostBody = (id, updatedText) => {
         this.setState({
             posts: this.state.posts.map(
-                post => (post.id === id ? {...post, body: updatedText} : {...post})
+                post =>
+                    (post.id === id ? {...post, body: updatedText} : {...post})
             )
         });
     }
 
-    deletePost(id) {
+    deletePost = (id) => {
         this.setState({
             posts: this.state.posts.filter((post) => post.id !== id)
         });
@@ -28,8 +40,8 @@ class PostsList extends Component {
                     <Post className="post"
                           key={post.id}
                           {...post}
-                          updatePostBody={this.updatePostBody.bind(this)}
-                          deletePost={this.deletePost.bind(this)} />
+                          updatePostBody={this.updatePostBody}
+                          deletePost={this.deletePost} />
                 )}
             </div>
         );

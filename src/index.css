@@ -1,5 +1,18 @@
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: rgba(0, 0, 0, 0.90);
+    color: #fff;
+}
+
+textarea {
+    font-family: sans-serif;
 }

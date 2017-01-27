@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import './Post.css';
 
 class Post extends Component {
     constructor(props) {
         super(props);
+        // TODO - remove temp, use defaultValue
         this.state = {
             isEditing: false,
             tempPostText: ''
@@ -48,15 +50,13 @@ class Post extends Component {
 
         let postBody = body;
         if (isEditing) {
-            postBody = <textarea value={this.state.tempPostText}
-                                 rows="5" cols="80"
-                                 onChange={this.textChangeHandler} />;
+            postBody = <textarea value={this.state.tempPostText} onChange={this.textChangeHandler} />;
         }
 
         return (
-            <div>
-                <h4>{title}</h4>
-                <p>{postBody}</p>
+            <div className="post">
+                <h4 className="post-title">{title}</h4>
+                <p className="post-body">{postBody}</p>
                 <div className="post-сontrols">
                     <button onClick={isEditing ? this.savePost : this.editPost}>
                         {isEditing ? 'Save' : 'Edit'}
