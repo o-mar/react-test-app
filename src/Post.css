@@ -49,3 +49,7 @@
     font-weight: bold;
     font-size: 14px;
 }
+
+.post-сontrols button:hover {
+    background: #23caa3;
+}
