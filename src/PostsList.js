@@ -13,7 +13,9 @@ class PostsList extends Component {
             return response.json();
         }).then((data) => {
             // TODO - rebuild problem with \n
-            const cleanData = data.map(post => ({...post, body: post.body.replace(/(\r\n|\n|\r)/gm,"")}));
+            const cleanData = data.map(
+                post => ({...post, body: post.body.replace(/(\r\n|\n|\r)/gm,"")})
+            );
             this.setState({posts : cleanData.slice(0, 10)});
         }).catch((e) => {
             console.log(e);
