@@ -1,41 +1,22 @@
 import React, { Component } from 'react';
+import Comments from './Comments';
 import './Post.css';
 
 class Post extends Component {
     constructor(props) {
         super(props);
-        // TODO - remove temp, use defaultValue
-        this.state = {
-            isEditing: false,
-            tempPostText: ''
-        };
+        this.state = {editMode: false};
     }
 
     editPost = (e) => {
         e.preventDefault();
-        const { body } = this.props;
-        this.setState({
-            isEditing: true,
-            tempPostText: body
-        });
-    }
-
-    textChangeHandler = (e) => {
-        this.setState({
-            ...this.state,
-            tempPostText: e.target.value
-        });
-    }
-
-    savePost = (e) => {
-        e.preventDefault();
         const { id, updatePostBody } = this.props;
-        this.setState({
-            ...this.state,
-            isEditing: false,
-        });
 
-        updatePostBody(id, this.state.tempPostText);
+        if (this.state.editMode) {
+            updatePostBody(id, this.updatedText.value);
+        }
+
+        this.setState({editMode: !this.state.editMode});
     }
 
     deletePost = (e) => {
@@ -45,12 +26,12 @@ class Post extends Component {
     }
 
     render() {
-        const { title, body } = this.props;
-        const isEditing = this.state.isEditing;
+        const { id, title, body } = this.props;
+        const editMode = this.state.editMode;
 
         let postBody = body;
-        if (isEditing) {
-            postBody = <textarea value={this.state.tempPostText} onChange={this.textChangeHandler} />;
+        if (editMode) {
+            postBody = <textarea defaultValue={body} ref={txt => this.updatedText = txt} />;
         }
 
         return (
@@ -58,12 +39,13 @@ class Post extends Component {
                 <h4 className="post-title">{title}</h4>
                 <p className="post-body">{postBody}</p>
                 <div className="post-сontrols">
-                    <button onClick={isEditing ? this.savePost : this.editPost}>
-                        {isEditing ? 'Save' : 'Edit'}
+                    <button onClick={this.editPost}>
+                        {editMode ? 'Save' : 'Edit'}
                     </button>
                     <button onClick={this.deletePost}>Delete</button>
                     <button>Show comments</button>
                 </div>
+                <Comments postId={id} />
             </div>
         );
     }
