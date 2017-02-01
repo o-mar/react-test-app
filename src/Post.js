@@ -5,7 +5,10 @@ import './Post.css';
 class Post extends Component {
     constructor(props) {
         super(props);
-        this.state = {editMode: false};
+        this.state = {
+            editMode: false,
+            showComments: false
+        };
     }
 
     editPost = (e) => {
@@ -16,7 +19,12 @@ class Post extends Component {
             updatePostBody(id, this.updatedText.value);
         }
 
-        this.setState({editMode: !this.state.editMode});
+        this.setState({...this.state, editMode: !this.state.editMode});
+    }
+
+    toggleComments = (e) => {
+        e.preventDefault();
+        this.setState({...this.state, showComments: !this.state.showComments});
     }
 
     deletePost = (e) => {
@@ -28,6 +36,7 @@ class Post extends Component {
     render() {
         const { id, title, body } = this.props;
         const editMode = this.state.editMode;
+        const showComments = this.state.showComments;
 
         let postBody = body;
         if (editMode) {
@@ -43,9 +52,11 @@ class Post extends Component {
                         {editMode ? 'Save' : 'Edit'}
                     </button>
                     <button onClick={this.deletePost}>Delete</button>
-                    <button>Show comments</button>
+                    <button onClick={this.toggleComments}>
+                        {showComments ? 'Hide' : 'Show'} comments
+                    </button>
                 </div>
-                <Comments postId={id} />
+                {showComments ? <Comments postId={id} /> : null}
             </div>
         );
     }

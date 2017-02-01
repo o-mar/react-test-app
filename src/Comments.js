@@ -24,8 +24,14 @@ class Comments extends Component {
     }
 
     render() {
+        const comments = this.state.comments;
+
         return (
-            <div>Comments</div>
+            <div className="comments-block">
+                {comments.map(
+                    comment => <div key={comment.id}>{comment.body}, <span>{comment.email}</span></div>
+                )}
+            </div>
         );
     }
 }
